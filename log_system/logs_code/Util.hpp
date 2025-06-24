@@ -12,6 +12,7 @@ namespace mylog
 {
     namespace Util
     {
+        // 时间类
         class Date
         {
         public:
@@ -22,6 +23,7 @@ namespace mylog
         public:
             static bool Exists(const std::string &filename)
             {
+                // 所有文件元数据信息
                 struct stat st;
                 return (0 == stat(filename.c_str(), &st));
             }
@@ -29,11 +31,14 @@ namespace mylog
             {
                 if (filename.empty())
                     return "";
+                // 目录的最后一个文件
                 int pos = filename.find_last_of("/\\");
                 if (pos != std::string::npos)
                     return filename.substr(0, pos + 1);
                 return "";
             }
+
+            // 将路径创建到最后一级
             static void CreateDirectory(const std::string &pathname)
             {
                 if (pathname.empty())
@@ -43,7 +48,9 @@ namespace mylog
                     size_t pos, index = 0;
                     size_t size = pathname.size();
                     while (index < size){
+                        // find_first_of是查找"/\\"中的任意一个字符
                         pos = pathname.find_first_of("/\\", index);
+                        // 循环创建文件夹
                         if (pos == std::string::npos)
                         {
                             mkdir(pathname.c_str(), 0755);
@@ -56,6 +63,7 @@ namespace mylog
                         }
 
                         std::string sub_path = pathname.substr(0, pos);
+                        // 如果是"."或".."，则跳过
                         if (sub_path == "." || sub_path == "..")
                         {
                             index = pos + 1;
@@ -73,6 +81,7 @@ namespace mylog
                 }
             }
 
+            // 取得文件大小,通过stat
             int64_t FileSize(std::string filename)
             {
                 struct stat s;
@@ -113,15 +122,20 @@ namespace mylog
                 return true;
             }
         }; // class file
+
         class JsonUtil
         {
         public:
+            // 将json对象转换成字符串
             static bool Serialize(const Json::Value &val, std::string *str)
             {
                 // 建造者生成->建造者实例化json写对象->调用写对象中的接口进行序列化写入str
                 Json::StreamWriterBuilder swb;
+                // 默认配置的建造者实例
+                // usw, StreamWriter是实际执行 JSON 序列化写入操作的类
                 std::unique_ptr<Json::StreamWriter> usw(swb.newStreamWriter());
                 std::stringstream ss;
+                // val是序列化对象, ss是序列化结果的输出流
                 if (usw->write(val, &ss) != 0)
                 {
                     std::cout << "serialize error" << std::endl;
@@ -130,9 +144,11 @@ namespace mylog
                 *str = ss.str();
                 return true;
             }
+            // 将字符串转成json对象
             static bool UnSerialize(const std::string &str, Json::Value *val)
             {
                 // 操作方法类似序列化
+                // 构建CharReader的建造者
                 Json::CharReaderBuilder crb;
                 std::unique_ptr<Json::CharReader> ucr(crb.newCharReader());
                 std::string err;
@@ -141,7 +157,7 @@ namespace mylog
                     std::cout <<__FILE__<<__LINE__<<"parse error" << err<<std::endl;
                     return false;
                 }
-                return false;
+                return true;
             }
         };
         struct JsonData{
@@ -150,9 +166,10 @@ namespace mylog
                return json_data;
             }
             private:
-                JsonData(){
+            JsonData(){
                 std::string content;
                 mylog::Util::File file;
+                // 相对路径读取配置文件
                 if (file.GetContent(&content, "../../log_system/logs_code/config.conf") == false){
                     std::cout << __FILE__ << __LINE__ << "open config.conf failed" << std::endl;
                     perror(NULL);

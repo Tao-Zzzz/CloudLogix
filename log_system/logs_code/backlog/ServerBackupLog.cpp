@@ -41,6 +41,7 @@ void backup_log(const std::string &message)//用作回调
     fflush(fp);
     fclose(fp);
 }
+
 int main(int args, char *argv[])
 {
     if (args != 2)
