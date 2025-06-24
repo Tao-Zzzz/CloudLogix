@@ -1,0 +1,30 @@
+[15:34:12][124230101515136[INFO][asynclogger][DataManager.hpp:50]	DataManager construct start
+[15:34:12][124230101515136[INFO][asynclogger][Config.hpp:37]	ReadConfig start
+[15:34:12][124230101515136[INFO][asynclogger][Config.hpp:30]	ReadConfig complicate
+[15:34:12][124230101515136[INFO][asynclogger][DataManager.hpp:65]	init datamanager
+[15:34:12][124230101515136[INFO][asynclogger][DataManager.hpp:68]	there is no storage file info need to load
+[15:34:12][124230101515136[INFO][asynclogger][DataManager.hpp:56]	DataManager construct end
+[15:34:12][124230012053184[DEBUG][asynclogger][Service.hpp:26]	Service start(Construct)
+[15:34:12][124230012053184[DEBUG][asynclogger][Service.hpp:32]	Service end(Construct)
+[15:34:12][124230012053184[INFO][asynclogger][Test.cpp:17]	service step in RunModule
+[15:34:12][124230012053184[DEBUG][asynclogger][Service.hpp:64]	event_base_dispatch
+[15:34:26][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /
+[15:34:26][124230012053184[INFO][asynclogger][Service.hpp:273]	ListShow()
+[15:34:26][124230012053184[INFO][asynclogger][Service.hpp:300]	ListShow() finish
+[15:34:27][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /favicon.ico
+[15:35:24][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /
+[15:35:24][124230012053184[INFO][asynclogger][Service.hpp:273]	ListShow()
+[15:35:24][124230012053184[INFO][asynclogger][Service.hpp:300]	ListShow() finish
+[15:35:36][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /.well-known/appspecific/com.chrome.devtools.json
+[15:39:24][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /
+[15:39:24][124230012053184[INFO][asynclogger][Service.hpp:273]	ListShow()
+[15:39:24][124230012053184[INFO][asynclogger][Service.hpp:300]	ListShow() finish
+[15:39:24][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /.well-known/appspecific/com.chrome.devtools.json
+[15:57:46][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /
+[15:57:46][124230012053184[INFO][asynclogger][Service.hpp:273]	ListShow()
+[15:57:46][124230012053184[INFO][asynclogger][Service.hpp:300]	ListShow() finish
+[15:57:46][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /.well-known/appspecific/com.chrome.devtools.json
+[16:01:54][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /
+[16:01:54][124230012053184[INFO][asynclogger][Service.hpp:273]	ListShow()
+[16:01:54][124230012053184[INFO][asynclogger][Service.hpp:300]	ListShow() finish
+[16:01:54][124230012053184[INFO][asynclogger][Service.hpp:88]	get req, uri: /.well-known/appspecific/com.chrome.devtools.json
