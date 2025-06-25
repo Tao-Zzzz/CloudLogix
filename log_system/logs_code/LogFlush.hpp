@@ -25,14 +25,15 @@ namespace mylog{
         }
     };
 
-    // 文件输出
+    // 文件输出, 最好不要用, 用滚动文件
     class FileFlush : public LogFlush
     {
     public:
         using ptr = std::shared_ptr<FileFlush>;
 
         // 构造,打开文件
-        FileFlush(const std::string &filename) : filename_(filename)
+        FileFlush(const std::string &filename, int retention_days = 7)
+            : filename_(filename), retention_days_(retention_days)
         {
             // 创建所给目录
             Util::File::CreateDirectory(Util::File::Path(filename));
@@ -42,6 +43,7 @@ namespace mylog{
                 std::cout <<__FILE__<<__LINE__<<"open log file failed"<< std::endl;
                 perror(NULL);
             }
+            StartCleanupThread();
         }
         void Flush(const char *data, size_t len) override{
             // 每个数据项大小是1字节
@@ -66,10 +68,75 @@ namespace mylog{
                 fsync(fileno(fs_));
             }
         }
+    private:
+        void StartCleanupThread()
+        {
+            cleanup_thread_ = std::thread([this]
+                                          {
+            while (!stop_cleanup_) {
+                CleanupOldLogs();
+                std::this_thread::sleep_for(std::chrono::hours(24)); // Run daily
+            } });
+        }
+
+        void CleanupOldLogs()
+        {
+            namespace fs = std::filesystem;
+            if (!fs::exists(filename_))
+                return;
+
+            auto now = std::chrono::system_clock::now();
+            auto retention_time = now - std::chrono::hours(24 * retention_days_);
+
+            // Parse log file to check timestamps
+            std::ifstream ifs(filename_);
+            if (!ifs.is_open())
+                return;
+
+            std::string line;
+            bool is_old = true;
+            while (std::getline(ifs, line) && !line.empty())
+            {
+                // Assume log format starts with timestamp like [YYYY-MM-DD HH:MM:SS]
+                if (line.size() > 20 && line[0] == '[')
+                {
+                    std::string timestamp_str = line.substr(1, 19); // Extract [YYYY-MM-DD HH:MM:SS]
+                    std::tm tm = {};
+                    std::istringstream ss(timestamp_str);
+                    ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+                    if (ss.fail())
+                        continue;
+
+                    auto log_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+                    if (log_time >= retention_time)
+                    {
+                        is_old = false;
+                        break;
+                    }
+                }
+            }
+            ifs.close();
+
+            // If all logs are old, delete the file
+            if (is_old)
+            {
+                std::lock_guard<std::mutex> lock(fs_mutex_);
+                if (fs_)
+                {
+                    fclose(fs_);
+                    fs_ = nullptr;
+                }
+                fs::remove(filename_);
+            }
+        }
 
     private:
         std::string filename_;
-        FILE* fs_ = NULL; 
+        FILE* fs_ = NULL;
+        int retention_days_;
+        std::atomic<bool> stop_cleanup_{false};
+        std::thread cleanup_thread_;
+        std::mutex fs_mutex_; // Protect file operations
     };
 
     // 滚动文件输出
@@ -197,8 +264,8 @@ namespace mylog{
         // std::ofstream ofs_;
         FILE* fs_ = NULL;
         int retention_days_;
-        std::atomic<bool> stop_cleanup_{false};
-        std::thread cleanup_thread_;
+        std::atomic<bool> stop_cleanup_{false}; // 控制清理线程的停止
+        std::thread cleanup_thread_; // 用于清理过期日志的线程
     };
 
     // 工厂类，用于创建日志输出类
