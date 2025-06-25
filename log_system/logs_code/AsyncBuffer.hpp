@@ -23,11 +23,13 @@ namespace mylog{
         }
         char *ReadBegin(int len)
         {
+            // 读的时候需要保证读的长度不超过可读空间, assert可能需要更改
             assert(len <= ReadableSize());
             return &buffer_[read_pos_];
         }
         bool IsEmpty() { return write_pos_ == read_pos_; }
 
+        // 换成传入的buf
         void Swap(Buffer &buf)
         {
             buffer_.swap(buf.buffer_);
@@ -42,7 +44,11 @@ namespace mylog{
         { // 读空间剩余容量
             return write_pos_ - read_pos_;
         }
+        // 读指针的首地址
         const char *Begin() { return &buffer_[read_pos_]; }
+
+
+
         void MoveWritePos(int len)
         {
             assert(len <= WriteableSize());
@@ -53,6 +59,8 @@ namespace mylog{
             assert(len <= ReadableSize());
             read_pos_ += len;
         }
+
+        
         void Reset()
         { // 重置缓冲区
             write_pos_ = 0;
@@ -60,6 +68,7 @@ namespace mylog{
         }
 
     protected:
+        // 缓冲区是否足够
         void ToBeEnough(size_t len)
         {
             int buffersize = buffer_.size();

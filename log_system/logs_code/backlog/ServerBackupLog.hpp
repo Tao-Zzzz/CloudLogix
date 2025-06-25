@@ -31,6 +31,7 @@ public:
     int sock;
     std::string client_ip;
     uint16_t client_port;
+    // TCPServer指针，指向TcpServer对象
     TcpServer *ts_;
 };
 
@@ -63,8 +64,10 @@ public:
         }
     }
 
+    // 启动一个分离的线程，用于处理单个客户端连接的请求，并在处理完毕后关闭套接字并清理资源。
     static void *threadRoutine(void *args)
     {
+        // 分离状态,自动回收线程资源
         pthread_detach(pthread_self()); // 防止在start_service处阻塞
 
         ThreadData *td = static_cast<ThreadData *>(args);
@@ -95,6 +98,7 @@ public:
             // 传入线程数据类型来访问threadRoutine，因为该函数是static的，所以内部传入了data类型存了tcpserver类型
             pthread_t tid;
             ThreadData *td = new ThreadData(connfd, client_ip, client_port, this);
+            // 创建线程
             pthread_create(&tid, nullptr, threadRoutine, td);
         }
     }
@@ -108,6 +112,7 @@ public:
             std::cout << __FILE__ << __LINE__ <<"read error"<< strerror(errno)<< std::endl;
             perror("NULL");
         }else if(r_ret > 0){
+            // 字符串尾部置0
             buf[r_ret] = 0;
             std::string tmp = buf;
             func_(client_info+tmp); // 进行回调
@@ -118,5 +123,6 @@ public:
 private:
     int listen_sock_;
     uint16_t port_;
+    // func_在构造时传入
     func_t func_;
 };

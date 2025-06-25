@@ -11,6 +11,8 @@
 #include "../Util.hpp"
 
 extern mylog::Util::JsonData *g_conf_data;
+
+// 客户端启动
 void start_backup(const std::string &message)
 {
     // 1. create socket

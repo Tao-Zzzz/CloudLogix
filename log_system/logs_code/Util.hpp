@@ -160,6 +160,7 @@ namespace mylog
                 return true;
             }
         };
+        // 构造的时候就已经获取到config的信息
         struct JsonData{
             static JsonData* GetJsonData(){
                static JsonData* json_data = new JsonData;
