@@ -50,7 +50,7 @@ namespace storage
             // http 服务器,创建evhttp上下文
             evhttp *httpd = evhttp_new(base);
             // 绑定端口和ip
-            if (evhttp_bind_socket(httpd, "0.0.0.0", server_port_) != 0)
+            if (evhttp_bind_socket(httpd, "127.0.0.1", server_port_) != 0)
             {
                 mylog::GetLogger("asynclogger")->Fatal("evhttp_bind_socket failed!");
                 return false;
@@ -86,6 +86,25 @@ namespace storage
         // void (*cb)(struct evhttp_request *req, void *arg)。
         static void GenHandler(struct evhttp_request *req, void *arg)
         {
+            mylog::GetLogger("asynclogger")->Info("Request type: %d, path: %s", req->type, evhttp_uri_get_path(evhttp_request_get_evhttp_uri(req)));
+
+            // Add CORS headers for all responses
+            evhttp_add_header(req->output_headers, "Access-Control-Allow-Origin", "*"); // Use "*" for testing, or specify "http://localhost:7878"
+            evhttp_add_header(req->output_headers, "Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            evhttp_add_header(req->output_headers, "Access-Control-Allow-Headers", "StorageType, FileName, Content-Type");
+
+            // Handle OPTIONS request for preflight
+            if (req->type == EVHTTP_REQ_OPTIONS)
+            {
+                mylog::GetLogger("asynclogger")->Info("Handling OPTIONS request");
+                struct evbuffer *buf = evbuffer_new();
+                evbuffer_add_printf(buf, "OK");
+                evhttp_send_reply(req, HTTP_OK, "OK", buf);
+                evbuffer_free(buf);
+                return;
+            }
+            mylog::GetLogger("asynclogger")->Info("libevent version: %s", event_get_version());
+            
             // 从url中获取路径, 也就是url后面部分
             std::string path = evhttp_uri_get_path(evhttp_request_get_evhttp_uri(req));
             // 解码
@@ -304,13 +323,15 @@ namespace storage
             templateContent = std::regex_replace(templateContent,
                                                  std::regex("\\{\\{FILE_LIST\\}\\}"),
                                                  generateModernFileList(arry));
-                                                 
-            //替换服务器地址进hrml
-            templateContent = std::regex_replace(templateContent,
-                                                 std::regex("\\{\\{BACKEND_URL\\}\\}"),
-                                                "http://"+storage::Config::GetInstance()->GetServerIp()
-                                                +":"+std::to_string(storage::Config::GetInstance()->GetServerPort()));
-            
+
+            std::string back_url = "http://" + storage::Config::GetInstance()->GetServerIp() 
+                        + ":" + std::to_string(storage::Config::GetInstance()->GetServerPort());
+
+            mylog::GetLogger("asynclogger")->Info("back_url is : %s", back_url.c_str());
+            std::cout << "back_url is " << back_url << std::endl;
+            // 替换服务器地址进hrml
+            templateContent = std::regex_replace(templateContent,std::regex("\\{\\{BACKEND_URL\\}\\}"), back_url);
+
             // 获取请求的输出evbuffer
             struct evbuffer *buf = evhttp_request_get_output_buffer(req);
             auto response_body = templateContent;
@@ -320,9 +341,11 @@ namespace storage
             evhttp_send_reply(req, HTTP_OK, NULL, NULL);
             mylog::GetLogger("asynclogger")->Info("ListShow() finish");
         }
+
+        // 自定义etag :  filename-fsize-mtime
         static std::string GetETag(const StorageInfo &info)
         {
-            // 自定义etag :  filename-fsize-mtime
+            
             FileUtil fu(info.storage_path_);
             std::string etag = fu.FileName();
             etag += "-";
@@ -331,11 +354,20 @@ namespace storage
             etag += std::to_string(info.mtime_);
             return etag;
         }
+
+
         static void Download(struct evhttp_request *req, void *arg)
         {
             // 1. 获取客户端请求的资源路径path   req.path
             // 2. 根据资源路径，获取StorageInfo
+
+            /*
+                如果文件已经是“普通存储”（未压缩），那么 download_path 会一直保持为 info.storage_path_。
+                如果文件是“深度存储”（已压缩），那么 download_path 会被改变。它会指向一个临时解压后的文件路径，这个临时文件通常会被放置在“普通存储”的目录下，并在下载完成后被删除。
+            */
+
             StorageInfo info;
+            // 如/download/my_file.zip
             std::string resource_path = evhttp_uri_get_path(evhttp_request_get_evhttp_uri(req));
             resource_path = UrlDecode(resource_path);
             data_->GetOneByURL(resource_path, &info);
@@ -347,13 +379,16 @@ namespace storage
             {
                 mylog::GetLogger("asynclogger")->Info("uncompressing:%s", info.storage_path_.c_str());
                 FileUtil fu(info.storage_path_);
+                // 临时解压路径
                 download_path = Config::GetInstance()->GetLowStorageDir() +
-                                std::string(download_path.begin() + download_path.find_last_of('/') + 1, download_path.end());
+                                std::string(download_path.begin() + download_path.find_last_of('/') + 1,
+                                download_path.end());
                 FileUtil dirCreate(Config::GetInstance()->GetLowStorageDir());
                 dirCreate.CreateDirectory();
                 fu.UnCompress(download_path); // 将文件解压到low_storage下去或者再创一个文件夹做中转
             }
             mylog::GetLogger("asynclogger")->Info("request download_path:%s", download_path.c_str());
+            
             FileUtil fu(download_path);
             if (fu.Exists() == false && info.storage_path_.find("deep_storage") != std::string::npos)
             {
@@ -391,6 +426,8 @@ namespace storage
                 evhttp_send_reply(req, 404, download_path.c_str(), NULL);
                 return;
             }
+
+            // 获取输出
             evbuffer *outbuf = evhttp_request_get_output_buffer(req);
             int fd = open(download_path.c_str(), O_RDONLY);
             if (fd == -1)
@@ -404,10 +441,13 @@ namespace storage
             {
                 mylog::GetLogger("asynclogger")->Error("evbuffer_add_file: %d -- %s -- %s", fd, download_path.c_str(), strerror(errno));
             }
+
             // 5. 设置响应头部字段： ETag， Accept-Ranges: bytes
             evhttp_add_header(req->output_headers, "Accept-Ranges", "bytes");
             evhttp_add_header(req->output_headers, "ETag", GetETag(info).c_str());
             evhttp_add_header(req->output_headers, "Content-Type", "application/octet-stream");
+            
+            // 如果有断点续传
             if (retrans == false)
             {
                 evhttp_send_reply(req, HTTP_OK, "Success", NULL);
@@ -415,9 +455,12 @@ namespace storage
             }
             else
             {
+                // 告诉客户端服务器接受并正在处理一个部分内容请求
                 evhttp_send_reply(req, 206, "breakpoint continuous transmission", NULL); // 区间请求响应的是206
                 mylog::GetLogger("asynclogger")->Info("evhttp_send_reply: 206");
             }
+
+            // 清除临时压缩文件
             if (download_path != info.storage_path_)
             {
                 remove(download_path.c_str()); // 删除文件

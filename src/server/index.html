@@ -134,7 +134,7 @@
 
 <body>
     <div class="container">
-        <h1>📁卡码异步日志存储系统</h1>
+        <h1>📁异步日志存储系统</h1>
 
         <div class="upload-section">
             <div class="form-group">
@@ -170,7 +170,7 @@
         const config = {
             backendUrl: '{{BACKEND_URL}}'
         };
-
+        console.log("Backend URL:", config.backendUrl);
         async function uploadFile() {
             const fileInput = document.getElementById('fileInput');
             const storageType = document.querySelector('input[name="storageType"]:checked').value;
@@ -184,18 +184,24 @@
             // // Base64 编码
             const encodedFilename = btoa(unescape(encodeURIComponent(file.name)));
             console.log("Base64 编码结果:", encodedFilename);
+            console.log("Sending POST to:", `${config.backendUrl}/upload`);
+
+            // 使用 FormData 包装文件
+            const formData = new FormData();
+            formData.append('file', file);
 
             try {
                 const response = await fetch(`${config.backendUrl}/upload`, {
                     method: 'POST',
                     headers: {
                         'StorageType': storageType,
-                        'FileName': encodedFilename // 使用 Base64 编码
+                        'FileName': encodedFilename
                     },
-                    body: file
+                    body: formData // 使用 FormData 代替直接传递 file
                 });
-
+                console.log("Response status:", response.status);
                 if (response.ok) {
+                    alert('上传成功');
                     location.reload();
                 } else {
                     alert(`上传失败: ${response.status}`);

@@ -1,0 +1,21 @@
+[00:18:52][139069247277952][INFO][asynclogger][DataManager.hpp:57]	DataManager construct start
+[00:18:52][139069247277952][INFO][asynclogger][Config.hpp:37]	ReadConfig start
+[00:18:52][139069247277952][INFO][asynclogger][Config.hpp:30]	ReadConfig complicate
+[00:18:52][139069247277952][INFO][asynclogger][DataManager.hpp:72]	init datamanager
+[00:18:52][139069247277952][INFO][asynclogger][DataManager.hpp:75]	there is no storage file info need to load
+[00:18:52][139069247277952][INFO][asynclogger][DataManager.hpp:63]	DataManager construct end
+[00:18:52][139069076489920][DEBUG][asynclogger][Service.hpp:27]	Service start(Construct)
+[00:18:52][139069076489920][DEBUG][asynclogger][Service.hpp:33]	Service end(Construct)
+[00:18:52][139069076489920][INFO][asynclogger][Test.cpp:14]	service step in RunModule
+[00:18:52][139069076489920][DEBUG][asynclogger][Service.hpp:65]	event_base_dispatch
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:309]	ListShow()
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /.well-known/appspecific/com.chrome.devtools.json
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:111]	get req, original uri: /.well-known/appspecific/com.chrome.devtools.json
+[00:19:00][139069076489920][INFO][asynclogger][Service.hpp:113]	get req, uri: /.well-known/appspecific/com.chrome.devtools.json

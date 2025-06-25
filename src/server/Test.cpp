@@ -18,17 +18,24 @@ void service_module()
 // 添加logger
 void log_system_module_init()
 {
-    g_conf_data = mylog::Util::JsonData::GetJsonData();
-    tp = new ThreadPool(g_conf_data->thread_count);
+    try
+    {
+        g_conf_data = mylog::Util::JsonData::GetJsonData();
+        tp = new ThreadPool(g_conf_data->thread_count);
 
-    // 这个new工厂不是很理想
-    std::shared_ptr<mylog::LoggerBuilder> Glb(new mylog::LoggerBuilder());
-    Glb->BuildLoggerName("asynclogger");
-    Glb->BuildLoggerFlush<mylog::RollFileFlush>("./logfile/RollFile_log",
-                                              1024 * 1024);
-    // The LoggerManger has been built and is managed by members of the LoggerManger class
-    //The logger is assigned to the managed object, and the caller lands the log by invoking the singleton managed object
-    mylog::LoggerManager::GetInstance().AddLogger(Glb->Build());
+
+        std::shared_ptr<mylog::LoggerBuilder> Glb(new mylog::LoggerBuilder());
+        Glb->BuildLoggerName("asynclogger");
+        Glb->BuildLoggerFlush<mylog::RollFileFlush>("./logfile/RollFile_log", 1024 * 1024);
+        // The LoggerManger has been built and is managed by members of the LoggerManger class
+        // The logger is assigned to the managed object, and the caller lands the log by invoking the singleton managed object
+
+        mylog::LoggerManager::GetInstance().AddLogger(Glb->Build());
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "log_system_module_init failed: " << e.what() << std::endl;
+    }
     
 }
 int main()

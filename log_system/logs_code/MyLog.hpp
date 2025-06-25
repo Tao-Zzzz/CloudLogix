@@ -24,29 +24,4 @@ namespace mylog
 #define LOGERRORDEFAULT(fmt, ...) mylog::DefaultLogger()->Error(fmt, ##__VA_ARGS__)
 #define LOGFATALDEFAULT(fmt, ...) mylog::DefaultLogger()->Fatal(fmt, ##__VA_ARGS__)
 
-// 注册自定义日志器宏
-#define REGISTER_LOGGER(name)                                  \
-    namespace mylog                                            \
-    {                                                          \
-        AsyncLogger::ptr GetLogger_##name()                    \
-        {                                                      \
-            static AsyncLogger::ptr logger = GetLogger(#name); \
-            return logger;                                     \
-        }                                                      \
-    }
-
-// 内部宏：实际展开逻辑
-#define _LOGDEBUG(logger, ...) mylog::GetLogger_##logger()->Debug(__FILE__, __LINE__, __VA_ARGS__)
-#define _LOGINFO(logger, ...) mylog::GetLogger_##logger()->Info(__FILE__, __LINE__, __VA_ARGS__)
-#define _LOGWARN(logger, ...) mylog::GetLogger_##logger()->Warn(__FILE__, __LINE__, __VA_ARGS__)
-#define _LOGERROR(logger, ...) mylog::GetLogger_##logger()->Error(__FILE__, __LINE__, __VA_ARGS__)
-#define _LOGFATAL(logger, ...) mylog::GetLogger_##logger()->Fatal(__FILE__, __LINE__, __VA_ARGS__)
-
-// 外部宏：拼接名字后转发
-#define LOGDEBUG(name, ...) _LOGDEBUG(name, __VA_ARGS__)
-#define LOGINFO(name, ...) _LOGINFO(name, __VA_ARGS__)
-#define LOGWARN(name, ...) _LOGWARN(name, __VA_ARGS__)
-#define LOGERROR(name, ...) _LOGERROR(name, __VA_ARGS__)
-#define LOGFATAL(name, ...) _LOGFATAL(name, __VA_ARGS__)
-
 } // namespace mylog

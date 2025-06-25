@@ -22,14 +22,20 @@ namespace mylog
         using ptr = std::shared_ptr<AsyncLogger>;
         AsyncLogger(const std::string &logger_name, std::vector<LogFlush::ptr> &flushs, AsyncType type,
                     bool synchronous = false)
-            : logger_name_(logger_name),                 // 初始化日志器的名字
-              flushs_(flushs.begin(), flushs.end()),     // 添加实例化方式给日志器，如日志输出到文件还是标准输出，可能有多种
-              asyncworker(std::make_shared<AsyncWorker>( // 启动异步工作器
-                  std::bind(&AsyncLogger::RealFlush, this, std::placeholders::_1),
-                  type)),
-                synchronous_(synchronous) // 是否同步
+            : logger_name_(logger_name),             // 初始化日志器的名字
+              flushs_(flushs.begin(), flushs.end()), // 添加实例化方式给日志器，如日志输出到文件还是标准输出，可能有多种
+              asyncworker(std::make_shared<AsyncWorker>(
+                  [this](Buffer &buffer)
+                  { RealFlush(buffer); }, type)),
+              synchronous_(synchronous) // 是否同步
         {
+            if (!asyncworker)
+            {
+                std::cerr << "Failed to get asynclogger in constructor" << std::endl;
+                throw std::runtime_error("Failed to create AsyncWorker");
+            }
         }
+
         virtual ~AsyncLogger() {};
         std::string Name() { return logger_name_; }
 

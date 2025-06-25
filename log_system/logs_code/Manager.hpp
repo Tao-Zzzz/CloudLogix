@@ -36,7 +36,10 @@ namespace mylog{
             std::unique_lock<std::mutex> lock(mtx_);
             auto it = loggers_.find(name);
             if (it == loggers_.end())
+            {
+                std::cerr << "Logger not found: " << name << std::endl;
                 return AsyncLogger::ptr();
+            }
             return it->second;
         }
 

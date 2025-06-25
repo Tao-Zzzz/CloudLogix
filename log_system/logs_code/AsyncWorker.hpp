@@ -24,7 +24,13 @@ namespace mylog {
             callback_(cb),
             stop_(false),
             // 非静态成员函数, 所以需要传入this指针
-            thread_(std::thread(&AsyncWorker::ThreadEntry, this)) {}
+            thread_(std::thread(&AsyncWorker::ThreadEntry, this)) {
+                if (!callback_)
+                {
+                    std::cerr << "Callback is null in AsyncWorker constructor" << std::endl;
+                    throw std::invalid_argument("Null callback");
+                }
+            }
         
         ~AsyncWorker() { Stop(); }
         
@@ -67,6 +73,11 @@ namespace mylog {
                     // 固定容量的缓冲区才需要唤醒
                     if (async_type_ == AsyncType::ASYNC_SAFE)
                         cond_productor_.notify_one();
+                }
+                if (!callback_)
+                {
+                    std::cerr << "Error: callback_ is null" << std::endl;
+                    return;
                 }
                 callback_(buffer_consumer_);  // 调用回调函数对缓冲区中数据进行处理
                 buffer_consumer_.Reset();
