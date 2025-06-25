@@ -20,6 +20,7 @@ namespace storage
     class Service
     {
     public:
+        // 从文件配置中读取服务器端口和IP地址
         Service()
         {
 #ifdef DEBUG_LOG

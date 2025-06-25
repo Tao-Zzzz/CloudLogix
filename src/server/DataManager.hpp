@@ -16,16 +16,21 @@ namespace storage
         {
             // 初始化备份文件的信息
             mylog::GetLogger("asynclogger")->Info("NewStorageInfo start");
+            
+            // FileUtil管理文件操作
             FileUtil f(storage_path);
+
             if (!f.Exists())
             {
                 mylog::GetLogger("asynclogger")->Info("file not exists");
                 return false;
             }
+            
             mtime_ = f.LastAccessTime();
             atime_ = f.LastModifyTime();
             fsize_ = f.FileSize();
             storage_path_ = storage_path;
+
             // URL实际就是用户下载文件请求的路径
             // 下载路径前缀+文件名
             storage::Config *config = storage::Config::GetInstance();
@@ -39,6 +44,7 @@ namespace storage
     class DataManager
     {
     private:
+        // 并没有storage的文件夹
         std::string storage_file_;
         pthread_rwlock_t rwlock_;
         std::unordered_map<std::string, StorageInfo> table_;
@@ -90,9 +96,11 @@ namespace storage
             return true;
         }
 
+        // 重新写入到文件中
         bool Storage()
-        { // 每次有信息改变则需要持久化存储一次
-// 把table_中的数据转成json格式存入文件
+        {   
+            // 每次有信息改变则需要持久化存储一次
+            // 把table_中的数据转成json格式存入文件
             mylog::GetLogger("asynclogger")->Info("message storage start");
             std::vector<StorageInfo> arr;
             if (!GetAll(&arr))
@@ -131,9 +139,11 @@ namespace storage
         bool Insert(const StorageInfo &info)
         {
             mylog::GetLogger("asynclogger")->Info("data_message Insert start");
+            
             pthread_rwlock_wrlock(&rwlock_); // 加写锁
             table_[info.url_] = info;
             pthread_rwlock_unlock(&rwlock_);
+            
             if (need_persist_ == true && Storage() == false)
             {
                 mylog::GetLogger("asynclogger")->Error("data_message Insert:Storage Error");
@@ -143,12 +153,15 @@ namespace storage
             return true;
         }
 
+        // 更新信息,内部进行持久化
         bool Update(const StorageInfo &info)
         {
             mylog::GetLogger("asynclogger")->Info("data_message Update start");
+
             pthread_rwlock_wrlock(&rwlock_);
             table_[info.url_] = info;
             pthread_rwlock_unlock(&rwlock_);
+
             if (Storage() == false)
             {
                 mylog::GetLogger("asynclogger")->Error("data_message Update:Storage Error");
@@ -157,6 +170,8 @@ namespace storage
             mylog::GetLogger("asynclogger")->Info("data_message Update end");
             return true;
         }
+
+
         bool GetOneByURL(const std::string &key, StorageInfo *info)
         {
             pthread_rwlock_rdlock(&rwlock_);
@@ -166,10 +181,13 @@ namespace storage
                 pthread_rwlock_unlock(&rwlock_);
                 return false;
             }
+
             *info = table_[key]; // 获取url对应的文件存储信息
             pthread_rwlock_unlock(&rwlock_);
             return true;
         }
+
+        // 通过realpath字段找到对应存储信息
         bool GetOneByStoragePath(const std::string &storage_path, StorageInfo *info)
         {
             pthread_rwlock_rdlock(&rwlock_);
@@ -186,6 +204,8 @@ namespace storage
             pthread_rwlock_unlock(&rwlock_);
             return false;
         }
+
+        // 将table中的值全部获取到arry中
         bool GetAll(std::vector<StorageInfo> *arry)
         {
             pthread_rwlock_rdlock(&rwlock_);

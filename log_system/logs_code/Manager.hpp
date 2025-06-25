@@ -12,6 +12,7 @@ namespace mylog{
             return eton;
         }
 
+        // 该logger是否存在
         bool LoggerExist(const std::string &name)
         {
             std::unique_lock<std::mutex> lock(mtx_);
@@ -21,6 +22,7 @@ namespace mylog{
             return true;
         }
 
+        // 添加logger
         void AddLogger(const AsyncLogger::ptr &&AsyncLogger)
         {
             if (LoggerExist(AsyncLogger->Name()))
@@ -41,6 +43,7 @@ namespace mylog{
         AsyncLogger::ptr DefaultLogger() { return default_logger_; }
 
     private:
+        // logger有一个默认的日志器，默认日志器的名字为"default"
         LoggerManager()
         {
             std::unique_ptr<LoggerBuilder> builder(new LoggerBuilder());

@@ -17,6 +17,7 @@ namespace storage
 {
     namespace fs = std::experimental::filesystem;
 
+    // 处理URL编码和解码
     static unsigned char ToHex(unsigned char x)
     {
         return x > 9 ? x + 55 : x + 48;
@@ -35,6 +36,8 @@ namespace storage
             assert(0);
         return y;
     }
+
+    // 将字符串进行URL编码
     static std::string UrlDecode(const std::string &str)
     {
         std::string strTemp = "";
@@ -229,6 +232,7 @@ namespace storage
             return fs::create_directories(filename_);
         }
 
+        // 将array的内容设置为当前目录下的所有文件名
         bool ScanDirectory(std::vector<std::string> *arry)
         {
             for (auto &p : fs::directory_iterator(filename_))
