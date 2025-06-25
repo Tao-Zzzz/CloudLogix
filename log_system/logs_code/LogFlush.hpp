@@ -3,6 +3,7 @@
 #include <memory>
 #include <unistd.h>
 #include "Util.hpp"
+#include <filesystem>
 
 extern mylog::Util::JsonData* g_conf_data;
 namespace mylog{
@@ -43,18 +44,25 @@ namespace mylog{
             }
         }
         void Flush(const char *data, size_t len) override{
+            // 每个数据项大小是1字节
             fwrite(data,1,len,fs_);
+            // 检查文件流是否有错误
             if(ferror(fs_)){
                 std::cout <<__FILE__<<__LINE__<<"write log file failed"<< std::endl;
                 perror(NULL);
             }
+            // 写入文件缓冲区
             if(g_conf_data->flush_log == 1){
                 if(fflush(fs_)==EOF){
                     std::cout <<__FILE__<<__LINE__<<"fflush file failed"<< std::endl;
                     perror(NULL);
                 }
             }else if(g_conf_data->flush_log == 2){
-                fflush(fs_);
+                // 强制写入硬盘
+                if (fflush(fs_) == EOF){
+                    std::cout << __FILE__ << __LINE__ << "fflush file failed" << std::endl;
+                    perror(NULL);
+                }
                 fsync(fileno(fs_));
             }
         }
@@ -69,10 +77,11 @@ namespace mylog{
     {
     public:
         using ptr = std::shared_ptr<RollFileFlush>;
-        RollFileFlush(const std::string &filename, size_t max_size)
-            : max_size_(max_size), basename_(filename)
+        RollFileFlush(const std::string &filename, size_t max_size, int retention_days = 7)
+            : max_size_(max_size), basename_(filename), retention_days_(retention_days)
         {
             Util::File::CreateDirectory(Util::File::Path(filename));
+            StartCleanupThread();
         }
 
         void Flush(const char *data, size_t len) override
@@ -92,12 +101,16 @@ namespace mylog{
                     perror(NULL);
                 }
             }else if(g_conf_data->flush_log == 2){
-                fflush(fs_);
+                if (fflush(fs_)){
+                    std::cout << __FILE__ << __LINE__ << "fflush file failed" << std::endl;
+                    perror(NULL);
+                }
                 fsync(fileno(fs_));
             }
         }
 
     private:
+        // 当前文件已经超过一定大小, 需要创建新的文件
         void InitLogFile()
         {
             if (fs_==NULL || cur_size_ >= max_size_)
@@ -106,12 +119,16 @@ namespace mylog{
                     fclose(fs_);
                     fs_=NULL;
                 }   
+
                 std::string filename = CreateFilename();
+
+                // 打开新建文件
                 fs_=fopen(filename.c_str(), "ab");
                 if(fs_==NULL){
                     std::cout <<__FILE__<<__LINE__<<"open file failed"<< std::endl;
                     perror(NULL);
                 }
+                // 当前大小置0
                 cur_size_ = 0;
             }
         }
@@ -133,6 +150,45 @@ namespace mylog{
             return filename;
         }
 
+        // 启动一个线程，定时清理过期日志
+        void StartCleanupThread()
+        {
+            cleanup_thread_ = std::thread([this]{
+                while (!stop_cleanup_) {
+                    CleanupOldLogs();
+                    std::this_thread::sleep_for(std::chrono::hours(24)); // Run daily
+                } });
+        }
+
+        // 实际清理文件的函数
+        void CleanupOldLogs()
+        {
+            namespace fs = std::filesystem;
+            auto dir = fs::path(basename_).parent_path();
+            if (!fs::exists(dir))
+                return;
+
+            time_t now = Util::Date::Now();
+            time_t retention_time = now - retention_days_ * 24 * 60 * 60; // 保留天数转换为秒
+
+            for (const auto &entry : fs::directory_iterator(dir))
+            {
+                // 普通文件且后缀为.log的文件
+                if (entry.is_regular_file() && entry.path().extension() == ".log")
+                {
+                    auto last_write = fs::last_write_time(entry);
+                    auto last_write_time = std::chrono::time_point_cast<std::chrono::seconds>(
+                                               last_write - fs::file_time_type::clock::now() + std::chrono::system_clock::now())
+                                               .time_since_epoch()
+                                               .count();
+                    if (last_write_time < retention_time)
+                    {
+                        fs::remove(entry.path());
+                    }
+                }
+            }
+        }
+
     private:
         size_t cnt_ = 1;
         size_t cur_size_ = 0;
@@ -140,8 +196,13 @@ namespace mylog{
         std::string basename_;
         // std::ofstream ofs_;
         FILE* fs_ = NULL;
+        int retention_days_;
+        std::atomic<bool> stop_cleanup_{false};
+        std::thread cleanup_thread_;
     };
 
+    // 工厂类，用于创建日志输出类
+    // 这里使用了模板方法，传入不同的FlushType类型和参数，
     class LogFlushFactory
     {
     public:

@@ -42,6 +42,7 @@ void backup_log(const std::string &message)//用作回调
     fclose(fp);
 }
 
+// 服务端是接收客户端的Error和Fatal的
 int main(int args, char *argv[])
 {
     if (args != 2)

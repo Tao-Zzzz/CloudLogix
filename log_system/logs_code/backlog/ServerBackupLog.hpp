@@ -28,7 +28,7 @@ public:
         : sock(fd),client_ip(ip),client_port(port),ts_(ts){}
 
 public:
-    int sock;
+    int sock; // 客户端的fd
     std::string client_ip;
     uint16_t client_port;
     // TCPServer指针，指向TcpServer对象

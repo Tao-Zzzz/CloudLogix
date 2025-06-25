@@ -150,6 +150,7 @@ namespace mylog
             // std::cout << "Debug:serialize Flush\n";
         }
 
+        // 最后执行的其实是RealFlush, 这里就是真正实现异步写入
         void Flush(const char *data, size_t len)
         {
             asyncworker->Push(data, len); // Push函数本身是线程安全的，这里不加锁
