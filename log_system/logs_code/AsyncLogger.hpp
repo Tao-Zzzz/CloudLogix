@@ -20,12 +20,16 @@ namespace mylog
     {
     public:
         using ptr = std::shared_ptr<AsyncLogger>;
-        AsyncLogger(const std::string &logger_name, std::vector<LogFlush::ptr> &flushs, AsyncType type)
-            : logger_name_(logger_name),//初始化日志器的名字
-              flushs_(flushs.begin(), flushs.end()),//添加实例化方式给日志器，如日志输出到文件还是标准输出，可能有多种
-              asyncworker(std::make_shared<AsyncWorker>(//启动异步工作器
+        AsyncLogger(const std::string &logger_name, std::vector<LogFlush::ptr> &flushs, AsyncType type,
+                    bool synchronous = false)
+            : logger_name_(logger_name),                 // 初始化日志器的名字
+              flushs_(flushs.begin(), flushs.end()),     // 添加实例化方式给日志器，如日志输出到文件还是标准输出，可能有多种
+              asyncworker(std::make_shared<AsyncWorker>( // 启动异步工作器
                   std::bind(&AsyncLogger::RealFlush, this, std::placeholders::_1),
-                  type)) {}
+                  type)),
+                synchronous_(synchronous) // 是否同步
+        {
+        }
         virtual ~AsyncLogger() {};
         std::string Name() { return logger_name_; }
 
@@ -137,6 +141,15 @@ namespace mylog
                     // enqueue获得的是一个future对象, 这里调用get()会阻塞，直到任务完成, 这里的任务就是发送log信息了
                     auto ret = tp->enqueue(start_backup, data);
                     ret.get();
+
+                    // 如果是打开同步模式，那么直接在这里进行flush
+                    if (synchronous_){
+                        for (auto &e : flushs_)
+                        {
+                            e->Flush(data.c_str(), data.size()); // Synchronous local flush
+                        }
+                    }
+                        
                 }
                 catch (const std::runtime_error &e)
                 {
@@ -172,6 +185,7 @@ namespace mylog
         std::vector<LogFlush::ptr> flushs_; // 输出到指定方向\
     std::vector<LogFlush> flush_;不能使用logflush作为元素类型，logflush是纯虚类，不能实例化
         mylog::AsyncWorker::ptr asyncworker;
+        bool synchronous_; // 是否同步
     };
 
     // 日志器建造
