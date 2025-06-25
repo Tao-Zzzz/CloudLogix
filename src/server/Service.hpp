@@ -69,6 +69,7 @@ namespace storage
                     mylog::GetLogger("asynclogger")->Debug("event_base_dispatch err");
                 }
             }
+            // 释放资源
             if (base)
                 event_base_free(base);
             if (httpd)
@@ -82,9 +83,13 @@ namespace storage
         std::string download_prefix_;
 
     private:
+        // void (*cb)(struct evhttp_request *req, void *arg)。
         static void GenHandler(struct evhttp_request *req, void *arg)
         {
+            // 从url中获取路径, 也就是url后面部分
             std::string path = evhttp_uri_get_path(evhttp_request_get_evhttp_uri(req));
+            // 解码
+            mylog::GetLogger("asynclogger")->Info("get req, original uri: %s", path.c_str());
             path = UrlDecode(path);
             mylog::GetLogger("asynclogger")->Info("get req, uri: %s", path.c_str());
 
@@ -106,6 +111,7 @@ namespace storage
             }
             else
             {
+                // 其他请求，返回404
                 evhttp_send_reply(req, HTTP_NOTFOUND, "Not Found", NULL);
             }
         }
@@ -127,11 +133,13 @@ namespace storage
             mylog::GetLogger("asynclogger")->Info("evbuffer_get_length is %u", len);
             if (0 == len)
             {
+                // 请求体为空，返回400错误
                 evhttp_send_reply(req, HTTP_BADREQUEST, "file empty", NULL);
                 mylog::GetLogger("asynclogger")->Info("request body is empty");
                 return;
             }
             std::string content(len, 0);
+            // 读取数据，但不移除数据。
             if (-1 == evbuffer_copyout(buf, (void *)content.c_str(), len))
             {
                 mylog::GetLogger("asynclogger")->Error("evbuffer_copyout error");
@@ -139,7 +147,7 @@ namespace storage
                 return;
             }
 
-            // 获取文件名
+            // 获取文件名, 从请求头中获取
             std::string filename = evhttp_find_header(req->input_headers, "FileName");
             // 解码文件名
             filename = base64_decode(filename);
@@ -158,6 +166,7 @@ namespace storage
             }
             else
             {
+                // 存储类型不合法，返回400错误
                 mylog::GetLogger("asynclogger")->Info("evhttp_send_reply: HTTP_BADREQUEST");
                 evhttp_send_reply(req, HTTP_BADREQUEST, "Illegal storage type", NULL);
                 return;
@@ -165,6 +174,7 @@ namespace storage
 
             // 如果不存在就创建low或deep目录
             FileUtil dirCreate(storage_path);
+            // 也许可以将这个放到构造里
             dirCreate.CreateDirectory();
 
             // 目录创建后加可以加上文件名，这个就是最终要写入的文件路径
@@ -174,6 +184,7 @@ namespace storage
 #endif
 
             // 看路径里是low还是deep存储，是deep就压缩，是low就直接写入
+            // 没搞懂那这个写进config里面干嘛
             FileUtil fu(storage_path);
             if (storage_path.find("low_storage") != std::string::npos)
             {
@@ -190,6 +201,7 @@ namespace storage
             }
             else
             {
+                // 压缩存储
                 if (fu.Compress(content, Config::GetInstance()->GetBundleFormat()) == false)
                 {
                     mylog::GetLogger("asynclogger")->Error("deep_storage fail, evhttp_send_reply: HTTP_INTERNAL");
@@ -204,6 +216,7 @@ namespace storage
 
             // 添加存储文件信息，交由数据管理类进行管理
             StorageInfo info;
+
             info.NewStorageInfo(storage_path); // 组织存储的文件信息
             data_->Insert(info);               // 向数据管理模块添加存储的文件信息
 
@@ -219,6 +232,7 @@ namespace storage
 
         // 前端代码处理函数
         // 在渲染函数中直接处理StorageInfo
+        // files每个文件都有
         static std::string generateModernFileList(const std::vector<StorageInfo> &files)
         {
             std::stringstream ss;
@@ -269,6 +283,8 @@ namespace storage
             ss << std::fixed << std::setprecision(2) << size << " " << units[unit_index];
             return ss.str();
         }
+
+        // 动态生成HTML文件列表
         static void ListShow(struct evhttp_request *req, void *arg)
         {
             mylog::GetLogger("asynclogger")->Info("ListShow()");
@@ -278,6 +294,7 @@ namespace storage
 
             // 读取模板文件
             std::ifstream templateFile("index.html");
+
             std::string templateContent(
                 (std::istreambuf_iterator<char>(templateFile)),
                 std::istreambuf_iterator<char>());
@@ -287,10 +304,13 @@ namespace storage
             templateContent = std::regex_replace(templateContent,
                                                  std::regex("\\{\\{FILE_LIST\\}\\}"),
                                                  generateModernFileList(arry));
+                                                 
             //替换服务器地址进hrml
             templateContent = std::regex_replace(templateContent,
                                                  std::regex("\\{\\{BACKEND_URL\\}\\}"),
-                                                "http://"+storage::Config::GetInstance()->GetServerIp()+":"+std::to_string(storage::Config::GetInstance()->GetServerPort()));
+                                                "http://"+storage::Config::GetInstance()->GetServerIp()
+                                                +":"+std::to_string(storage::Config::GetInstance()->GetServerPort()));
+            
             // 获取请求的输出evbuffer
             struct evbuffer *buf = evhttp_request_get_output_buffer(req);
             auto response_body = templateContent;

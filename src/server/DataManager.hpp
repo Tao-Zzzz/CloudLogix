@@ -12,6 +12,7 @@ namespace storage
         std::string storage_path_; // 文件存储路径
         std::string url_;          // 请求URL中的资源路径
 
+        // 初始化存储信息
         bool NewStorageInfo(const std::string &storage_path)
         {
             // 初始化备份文件的信息
