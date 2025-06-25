@@ -28,6 +28,8 @@ namespace mylog
                   type)) {}
         virtual ~AsyncLogger() {};
         std::string Name() { return logger_name_; }
+
+
         //该函数则是特定日志级别的日志信息的格式化，当外部调用该日志器时，使用debug模式的日志就会进来
         //在serialize时把日志信息中的日志级别定义为DEBUG。
         void Debug(const std::string &file, size_t line, const std::string format,
@@ -37,7 +39,9 @@ namespace mylog
             va_list va;
             va_start(va, format);
             char *ret;
+            // format形式, va是参数列表, ret为拼接后的结果
             int r = vasprintf(&ret, format.c_str(), va);
+
             if (r == -1)
                 perror("vasprintf failed!!!: ");
             va_end(va); // 将va指针置空
@@ -130,6 +134,7 @@ namespace mylog
             {
                 try
                 {
+                    // enqueue获得的是一个future对象, 这里调用get()会阻塞，直到任务完成, 这里的任务就是发送log信息了
                     auto ret = tp->enqueue(start_backup, data);
                     ret.get();
                 }

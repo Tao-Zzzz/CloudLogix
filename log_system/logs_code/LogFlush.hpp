@@ -14,6 +14,7 @@ namespace mylog{
         virtual void Flush(const char *data, size_t len) = 0;//不同的写文件方式Flush的实现不同
     };
 
+    // 标准输出
     class StdoutFlush : public LogFlush
     {
     public:
@@ -22,10 +23,14 @@ namespace mylog{
             cout.write(data, len);
         }
     };
+
+    // 文件输出
     class FileFlush : public LogFlush
     {
     public:
         using ptr = std::shared_ptr<FileFlush>;
+
+        // 构造,打开文件
         FileFlush(const std::string &filename) : filename_(filename)
         {
             // 创建所给目录
@@ -59,6 +64,7 @@ namespace mylog{
         FILE* fs_ = NULL; 
     };
 
+    // 滚动文件输出
     class RollFileFlush : public LogFlush
     {
     public:

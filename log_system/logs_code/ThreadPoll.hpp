@@ -50,15 +50,19 @@ public:
         auto task = std::make_shared<std::packaged_task<return_type()>>(
             std::bind(std::forward<F>(f), std::forward<Args>(args)...));
 
+        // future对象, 如果get会阻塞,直到获取结果
         std::future<return_type> res = task->get_future();
         {
+            // 将任务放进队列
             std::unique_lock lock(queue_mutex);
             if (stop)
                 throw std::runtime_error("enqueue on stopped ThreadPool");
 
+            // 函数指针解引用然后再调用
             tasks.emplace([task]
                           { (*task)(); });
         }
+        // 唤醒一个线程
         condition.notify_one();
         return res;
     }

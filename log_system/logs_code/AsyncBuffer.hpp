@@ -8,6 +8,7 @@
 extern mylog::Util::JsonData* g_conf_data;
 
 namespace mylog{
+    // 有消费者和生产者的缓冲区
     class Buffer{
     public:
         Buffer() : write_pos_(0), read_pos_(0) {
@@ -60,7 +61,7 @@ namespace mylog{
             read_pos_ += len;
         }
 
-        
+
         void Reset()
         { // 重置缓冲区
             write_pos_ = 0;
