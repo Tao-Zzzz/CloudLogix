@@ -1,0 +1,277 @@
+[08:29:22][134678970399616][INFO][asynclogger][DataManager.hpp:57]	DataManager construct start
+[08:29:22][134678970399616][INFO][asynclogger][Config.hpp:37]	ReadConfig start
+[08:29:22][134678970399616][INFO][asynclogger][Config.hpp:30]	ReadConfig complicate
+[08:29:22][134678970399616][INFO][asynclogger][DataManager.hpp:72]	init datamanager
+[08:29:22][134678970399616][INFO][asynclogger][DataManager.hpp:75]	there is no storage file info need to load
+[08:29:22][134678970399616][INFO][asynclogger][DataManager.hpp:63]	DataManager construct end
+[08:29:22][134678804604608][DEBUG][asynclogger][Service.hpp:27]	Service start(Construct)
+[08:29:22][134678804604608][DEBUG][asynclogger][Service.hpp:33]	Service end(Construct)
+[08:29:22][134678804604608][INFO][asynclogger][Test.cpp:14]	service step in RunModule
+[08:29:22][134678804604608][DEBUG][asynclogger][Service.hpp:65]	event_base_dispatch
+[08:32:55][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /
+[08:32:55][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:32:55][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:32:55][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:32:55][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:32:55][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:32:55][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:34:11][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /upload
+[08:34:11][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:34:11][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /upload
+[08:34:11][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /upload
+[08:34:11][134678804604608][INFO][asynclogger][Service.hpp:140]	Upload start
+[08:34:11][134678804604608][INFO][asynclogger][Service.hpp:152]	evbuffer_get_length is 162
+[08:34:11][134678804604608][DEBUG][asynclogger][Service.hpp:202]	storage_path:./low_storage/test.txt
+[08:34:11][134678804604608][INFO][asynclogger][Service.hpp:218]	low_storage success
+[08:34:11][134678804604608][INFO][asynclogger][DataManager.hpp:19]	NewStorageInfo start
+[08:34:11][134678804604608][INFO][asynclogger][DataManager.hpp:39]	download_url:/download/test.txt,mtime_:Thu Jun 26 08:34:11 2025
+,atime_:Thu Jun 26 08:34:11 2025
+,fsize_:162
+[08:34:11][134678804604608][INFO][asynclogger][DataManager.hpp:40]	NewStorageInfo end
+[08:34:11][134678804604608][INFO][asynclogger][DataManager.hpp:142]	data_message Insert start
+[08:34:11][134678804604608][INFO][asynclogger][DataManager.hpp:105]	message storage start
+[08:34:11][134678804604608][INFO][asynclogger][DataManager.hpp:127]	new message for StorageInfo:
+[08:34:11][134678804604608][INFO][asynclogger][DataManager.hpp:136]	message storage end
+[08:34:11][134678804604608][INFO][asynclogger][DataManager.hpp:153]	data_message Insert end
+[08:34:11][134678804604608][INFO][asynclogger][Service.hpp:243]	upload finish:success
+[08:34:42][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /upload
+[08:34:42][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:34:42][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /upload
+[08:34:42][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /upload
+[08:34:42][134678804604608][INFO][asynclogger][Service.hpp:140]	Upload start
+[08:34:42][134678804604608][INFO][asynclogger][Service.hpp:152]	evbuffer_get_length is 162
+[08:34:42][134678804604608][DEBUG][asynclogger][Service.hpp:202]	storage_path:./low_storage/test.txt
+[08:34:42][134678804604608][INFO][asynclogger][Service.hpp:218]	low_storage success
+[08:34:42][134678804604608][INFO][asynclogger][DataManager.hpp:19]	NewStorageInfo start
+[08:34:42][134678804604608][INFO][asynclogger][DataManager.hpp:39]	download_url:/download/test.txt,mtime_:Thu Jun 26 08:34:42 2025
+,atime_:Thu Jun 26 08:34:42 2025
+,fsize_:162
+[08:34:42][134678804604608][INFO][asynclogger][DataManager.hpp:40]	NewStorageInfo end
+[08:34:42][134678804604608][INFO][asynclogger][DataManager.hpp:142]	data_message Insert start
+[08:34:42][134678804604608][INFO][asynclogger][DataManager.hpp:105]	message storage start
+[08:34:42][134678804604608][INFO][asynclogger][DataManager.hpp:127]	new message for StorageInfo:
+[08:34:42][134678804604608][INFO][asynclogger][DataManager.hpp:136]	message storage end
+[08:34:42][134678804604608][INFO][asynclogger][DataManager.hpp:153]	data_message Insert end
+[08:34:42][134678804604608][INFO][asynclogger][Service.hpp:243]	upload finish:success
+[08:37:56][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /
+[08:37:56][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:37:56][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:37:56][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:37:56][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:37:56][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:37:56][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:44:26][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:44:26][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:44:26][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:44:26][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:44:26][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:44:26][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:44:26][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:44:27][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /favicon.ico
+[08:44:27][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:44:27][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /favicon.ico
+[08:44:27][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /favicon.ico
+[08:44:34][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /upload
+[08:44:34][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:44:34][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /upload
+[08:44:34][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /upload
+[08:44:34][134678804604608][INFO][asynclogger][Service.hpp:140]	Upload start
+[08:44:34][134678804604608][INFO][asynclogger][Service.hpp:152]	evbuffer_get_length is 2580
+[08:44:34][134678804604608][DEBUG][asynclogger][Service.hpp:202]	storage_path:./deep_storage/co_closure.h
+[08:44:34][134678804604608][INFO][asynclogger][Service.hpp:232]	deep_storage success
+[08:44:34][134678804604608][INFO][asynclogger][DataManager.hpp:19]	NewStorageInfo start
+[08:44:34][134678804604608][INFO][asynclogger][DataManager.hpp:39]	download_url:/download/co_closure.h,mtime_:Thu Jun 26 08:44:34 2025
+,atime_:Thu Jun 26 08:44:34 2025
+,fsize_:838
+[08:44:34][134678804604608][INFO][asynclogger][DataManager.hpp:40]	NewStorageInfo end
+[08:44:34][134678804604608][INFO][asynclogger][DataManager.hpp:142]	data_message Insert start
+[08:44:34][134678804604608][INFO][asynclogger][DataManager.hpp:105]	message storage start
+[08:44:34][134678804604608][INFO][asynclogger][DataManager.hpp:127]	new message for StorageInfo:
+[08:44:34][134678804604608][INFO][asynclogger][DataManager.hpp:136]	message storage end
+[08:44:34][134678804604608][INFO][asynclogger][DataManager.hpp:153]	data_message Insert end
+[08:44:34][134678804604608][INFO][asynclogger][Service.hpp:243]	upload finish:success
+[08:44:35][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:44:35][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:44:35][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:44:35][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:44:35][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:44:35][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:44:35][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:45:06][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /upload
+[08:45:06][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:45:06][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /upload
+[08:45:06][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /upload
+[08:45:06][134678804604608][INFO][asynclogger][Service.hpp:140]	Upload start
+[08:45:06][134678804604608][INFO][asynclogger][Service.hpp:152]	evbuffer_get_length is 604
+[08:45:06][134678804604608][DEBUG][asynclogger][Service.hpp:202]	storage_path:./low_storage/co_comm.cpp
+[08:45:06][134678804604608][INFO][asynclogger][Service.hpp:218]	low_storage success
+[08:45:06][134678804604608][INFO][asynclogger][DataManager.hpp:19]	NewStorageInfo start
+[08:45:06][134678804604608][INFO][asynclogger][DataManager.hpp:39]	download_url:/download/co_comm.cpp,mtime_:Thu Jun 26 08:45:06 2025
+,atime_:Thu Jun 26 08:45:06 2025
+,fsize_:604
+[08:45:06][134678804604608][INFO][asynclogger][DataManager.hpp:40]	NewStorageInfo end
+[08:45:06][134678804604608][INFO][asynclogger][DataManager.hpp:142]	data_message Insert start
+[08:45:06][134678804604608][INFO][asynclogger][DataManager.hpp:105]	message storage start
+[08:45:06][134678804604608][INFO][asynclogger][DataManager.hpp:127]	new message for StorageInfo:
+[08:45:06][134678804604608][INFO][asynclogger][DataManager.hpp:136]	message storage end
+[08:45:06][134678804604608][INFO][asynclogger][DataManager.hpp:153]	data_message Insert end
+[08:45:06][134678804604608][INFO][asynclogger][Service.hpp:243]	upload finish:success
+[08:45:07][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:45:07][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:45:07][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:45:07][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:45:07][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:45:07][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:45:07][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:45:47][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:45:47][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:45:47][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:45:47][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:45:47][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:45:47][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:45:47][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:45:48][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /favicon.ico
+[08:45:48][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:45:48][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /favicon.ico
+[08:45:48][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /favicon.ico
+[08:46:41][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:46:41][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:46:41][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:46:41][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:46:41][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:46:41][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:46:41][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:46:44][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /download/co_closure.h
+[08:46:44][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:46:44][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /download/co_closure.h
+[08:46:44][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /download/co_closure.h
+[08:46:44][134678804604608][INFO][asynclogger][Service.hpp:374]	request resource_path:/download/co_closure.h
+[08:46:44][134678804604608][INFO][asynclogger][Service.hpp:380]	uncompressing:./deep_storage/co_closure.h
+[08:46:44][134678804604608][INFO][asynclogger][Service.hpp:390]	request download_path:./low_storage/co_closure.h
+[08:46:44][134678804604608][INFO][asynclogger][Service.hpp:454]	evhttp_send_reply: HTTP_OK
+[08:49:03][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /
+[08:49:03][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:49:03][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:49:03][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:49:03][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:49:03][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:49:03][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:49:14][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /upload
+[08:49:14][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:49:14][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /upload
+[08:49:14][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /upload
+[08:49:14][134678804604608][INFO][asynclogger][Service.hpp:140]	Upload start
+[08:49:14][134678804604608][INFO][asynclogger][Service.hpp:152]	evbuffer_get_length is 162
+[08:49:14][134678804604608][DEBUG][asynclogger][Service.hpp:202]	storage_path:./low_storage/test.txt
+[08:49:14][134678804604608][INFO][asynclogger][Service.hpp:218]	low_storage success
+[08:49:14][134678804604608][INFO][asynclogger][DataManager.hpp:19]	NewStorageInfo start
+[08:49:14][134678804604608][INFO][asynclogger][DataManager.hpp:39]	download_url:/download/test.txt,mtime_:Thu Jun 26 08:49:14 2025
+,atime_:Thu Jun 26 08:49:14 2025
+,fsize_:162
+[08:49:14][134678804604608][INFO][asynclogger][DataManager.hpp:40]	NewStorageInfo end
+[08:49:14][134678804604608][INFO][asynclogger][DataManager.hpp:142]	data_message Insert start
+[08:49:14][134678804604608][INFO][asynclogger][DataManager.hpp:105]	message storage start
+[08:49:14][134678804604608][INFO][asynclogger][DataManager.hpp:127]	new message for StorageInfo:
+[08:49:14][134678804604608][INFO][asynclogger][DataManager.hpp:136]	message storage end
+[08:49:14][134678804604608][INFO][asynclogger][DataManager.hpp:153]	data_message Insert end
+[08:49:14][134678804604608][INFO][asynclogger][Service.hpp:243]	upload finish:success
+[08:51:42][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:51:42][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:51:42][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:51:42][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:51:42][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:51:42][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:51:42][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:51:43][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /favicon.ico
+[08:51:43][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:51:43][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /favicon.ico
+[08:51:43][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /favicon.ico
+[08:51:48][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /download/co_comm.cpp
+[08:51:48][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:51:48][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /download/co_comm.cpp
+[08:51:48][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /download/co_comm.cpp
+[08:51:48][134678804604608][INFO][asynclogger][Service.hpp:374]	request resource_path:/download/co_comm.cpp
+[08:51:48][134678804604608][INFO][asynclogger][Service.hpp:390]	request download_path:./low_storage/co_comm.cpp
+[08:51:48][134678804604608][INFO][asynclogger][Service.hpp:454]	evhttp_send_reply: HTTP_OK
+[08:51:58][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /upload
+[08:51:58][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:51:58][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /upload
+[08:51:58][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /upload
+[08:51:58][134678804604608][INFO][asynclogger][Service.hpp:140]	Upload start
+[08:51:58][134678804604608][INFO][asynclogger][Service.hpp:152]	evbuffer_get_length is 5678271
+[08:51:58][134678804604608][DEBUG][asynclogger][Service.hpp:202]	storage_path:./deep_storage/代码随想录知识星球-八股文速记版.pdf
+[08:52:02][134678804604608][INFO][asynclogger][Service.hpp:232]	deep_storage success
+[08:52:02][134678804604608][INFO][asynclogger][DataManager.hpp:19]	NewStorageInfo start
+[08:52:02][134678804604608][INFO][asynclogger][DataManager.hpp:39]	download_url:/download/代码随想录知识星球-八股文速记版.pdf,mtime_:Thu Jun 26 08:52:02 2025
+,atime_:Thu Jun 26 08:52:02 2025
+,fsize_:4766975
+[08:52:02][134678804604608][INFO][asynclogger][DataManager.hpp:40]	NewStorageInfo end
+[08:52:02][134678804604608][INFO][asynclogger][DataManager.hpp:142]	data_message Insert start
+[08:52:02][134678804604608][INFO][asynclogger][DataManager.hpp:105]	message storage start
+[08:52:02][134678804604608][INFO][asynclogger][DataManager.hpp:127]	new message for StorageInfo:
+[08:52:02][134678804604608][INFO][asynclogger][DataManager.hpp:136]	message storage end
+[08:52:02][134678804604608][INFO][asynclogger][DataManager.hpp:153]	data_message Insert end
+[08:52:02][134678804604608][INFO][asynclogger][Service.hpp:243]	upload finish:success
+[08:52:03][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:52:03][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:52:03][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:52:03][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:52:03][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:52:03][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:52:03][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:52:06][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /download/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83-%E5%85%AB%E8%82%A1%E6%96%87%E9%80%9F%E8%AE%B0%E7%89%88.pdf
+[08:52:06][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:52:06][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /download/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83-%E5%85%AB%E8%82%A1%E6%96%87%E9%80%9F%E8%AE%B0%E7%89%88.pdf
+[08:52:06][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /download/代码随想录知识星球-八股文速记版.pdf
+[08:52:06][134678804604608][INFO][asynclogger][Service.hpp:374]	request resource_path:/download/代码随想录知识星球-八股文速记版.pdf
+[08:52:06][134678804604608][INFO][asynclogger][Service.hpp:380]	uncompressing:./deep_storage/代码随想录知识星球-八股文速记版.pdf
+[08:52:07][134678804604608][INFO][asynclogger][Service.hpp:390]	request download_path:./low_storage/代码随想录知识星球-八股文速记版.pdf
+[08:52:07][134678804604608][INFO][asynclogger][Service.hpp:454]	evhttp_send_reply: HTTP_OK
+[08:52:53][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 2, path: /upload
+[08:52:53][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:52:53][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /upload
+[08:52:53][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /upload
+[08:52:53][134678804604608][INFO][asynclogger][Service.hpp:140]	Upload start
+[08:52:53][134678804604608][INFO][asynclogger][Service.hpp:152]	evbuffer_get_length is 158371
+[08:52:53][134678804604608][DEBUG][asynclogger][Service.hpp:202]	storage_path:./deep_storage/实验三——风险管理.pdf
+[08:52:53][134678804604608][INFO][asynclogger][Service.hpp:232]	deep_storage success
+[08:52:53][134678804604608][INFO][asynclogger][DataManager.hpp:19]	NewStorageInfo start
+[08:52:53][134678804604608][INFO][asynclogger][DataManager.hpp:39]	download_url:/download/实验三——风险管理.pdf,mtime_:Thu Jun 26 08:52:53 2025
+,atime_:Thu Jun 26 08:52:53 2025
+,fsize_:156040
+[08:52:53][134678804604608][INFO][asynclogger][DataManager.hpp:40]	NewStorageInfo end
+[08:52:53][134678804604608][INFO][asynclogger][DataManager.hpp:142]	data_message Insert start
+[08:52:53][134678804604608][INFO][asynclogger][DataManager.hpp:105]	message storage start
+[08:52:53][134678804604608][INFO][asynclogger][DataManager.hpp:127]	new message for StorageInfo:
+[08:52:53][134678804604608][INFO][asynclogger][DataManager.hpp:136]	message storage end
+[08:52:53][134678804604608][INFO][asynclogger][DataManager.hpp:153]	data_message Insert end
+[08:52:53][134678804604608][INFO][asynclogger][Service.hpp:243]	upload finish:success
+[08:52:54][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:52:54][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:52:54][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:52:54][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:52:54][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:52:54][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:52:54][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:52:56][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /download/%E5%AE%9E%E9%AA%8C%E4%B8%89%E2%80%94%E2%80%94%E9%A3%8E%E9%99%A9%E7%AE%A1%E7%90%86.pdf
+[08:52:56][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:52:56][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /download/%E5%AE%9E%E9%AA%8C%E4%B8%89%E2%80%94%E2%80%94%E9%A3%8E%E9%99%A9%E7%AE%A1%E7%90%86.pdf
+[08:52:56][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /download/实验三——风险管理.pdf
+[08:52:56][134678804604608][INFO][asynclogger][Service.hpp:374]	request resource_path:/download/实验三——风险管理.pdf
+[08:52:56][134678804604608][INFO][asynclogger][Service.hpp:380]	uncompressing:./deep_storage/实验三——风险管理.pdf
+[08:52:56][134678804604608][INFO][asynclogger][Service.hpp:390]	request download_path:./low_storage/实验三——风险管理.pdf
+[08:52:56][134678804604608][INFO][asynclogger][Service.hpp:454]	evhttp_send_reply: HTTP_OK
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:89]	Request type: 1, path: /
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:106]	libevent version: 2.1.12-stable
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:111]	get req, original uri: /
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:113]	get req, uri: /
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:309]	ListShow()
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:330]	back_url is : http://127.0.0.1:7878
+[08:56:04][134678804604608][INFO][asynclogger][Service.hpp:342]	ListShow() finish

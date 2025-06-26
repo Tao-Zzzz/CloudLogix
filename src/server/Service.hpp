@@ -327,8 +327,8 @@ namespace storage
             std::string back_url = "http://" + storage::Config::GetInstance()->GetServerIp() 
                         + ":" + std::to_string(storage::Config::GetInstance()->GetServerPort());
 
-            mylog::GetLogger("asynclogger")->Info("back_url is : %s", back_url.c_str());
-            std::cout << "back_url is " << back_url << std::endl;
+            //mylog::GetLogger("asynclogger")->Info("back_url is : %s", back_url.c_str());
+            //std::cout << "back_url is " << back_url << std::endl;
             // 替换服务器地址进hrml
             templateContent = std::regex_replace(templateContent,std::regex("\\{\\{BACKEND_URL\\}\\}"), back_url);
 
